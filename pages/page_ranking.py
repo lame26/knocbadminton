@@ -12,7 +12,9 @@ def render(dm):
     """, unsafe_allow_html=True)
 
     # 정렬 모드 토글
-    col1, col2, col3 = st.columns([2, 1, 1])
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.markdown("")
     with col2:
         sort_mode = st.selectbox("정렬 기준", ["실력(Pt)", "활동(XP)"], label_visibility="collapsed")
     with col3:
@@ -26,6 +28,7 @@ def render(dm):
         active_scores = [p.score for p in dm.players.values() if p.is_active]
         avg_score = int(sum(active_scores) / max(len(active_scores), 1))
 
+    # 모바일: 2x2 그리드, 데스크톱: 1x4
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.markdown(f"""
@@ -161,11 +164,11 @@ def render(dm):
         def highlight_rank(row):
             rank = row["순위"]
             if rank == 1:
-                return ["background-color: #FFF9C4"] * len(row)
+                return ["background-color: #FFF9C4; color: #263238; font-weight: bold;"] * len(row)
             elif rank == 2:
-                return ["background-color: #F5F5F5"] * len(row)
+                return ["background-color: #F5F5F5; color: #263238; font-weight: bold;"] * len(row)
             elif rank == 3:
-                return ["background-color: #FFCCBC"] * len(row)
+                return ["background-color: #FFCCBC; color: #263238; font-weight: bold;"] * len(row)
             return [""] * len(row)
         
         styled = df.style.apply(highlight_rank, axis=1).set_properties(**{

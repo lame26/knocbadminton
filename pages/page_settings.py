@@ -67,7 +67,7 @@ def render(dm):
         st.markdown("#### 🔄 XP 전체 재계산")
         st.caption("XP 기록이 꼬였거나 규칙 변경 시 재계산합니다. 모든 선수의 XP를 초기화 후 재계산합니다.")
         
-        if st.button("🔄 XP 전체 재계산 실행", use_container_width=True):
+        if st.button("🔄 XP 전체 재계산 실행", width="stretch"):
             success, msg = dm.recalculate_all_xp()
             if success:
                 st.success(msg)
@@ -75,11 +75,49 @@ def render(dm):
                 st.error(f"오류: {msg}")
 
         st.markdown("---")
+        st.markdown("#### 🎯 점수(Pt) 전체 재계산")
+        st.caption("모든 경기 데이터를 기반으로 선수 점수를 처음부터 다시 계산합니다. 부스트 배수는 무시됩니다.")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("👁️ 재계산 시뮬레이션 (미리보기)", width="stretch"):
+                with st.spinner("점수 재계산 중..."):
+                    import subprocess
+                    result = subprocess.run(
+                        ["python", "recalculate_scores.py"],
+                        capture_output=True,
+                        text=True,
+                        encoding='utf-8',
+                        cwd="."
+                    )
+                    st.code(result.stdout, language="text")
+        
+        with col2:
+            if st.button("✅ 재계산 실제 적용", width="stretch", type="primary"):
+                with st.spinner("점수 재계산 및 DB 업데이트 중..."):
+                    import subprocess
+                    result = subprocess.run(
+                        ["python", "recalculate_scores.py", "--apply"],
+                        capture_output=True,
+                        text=True,
+                        encoding='utf-8',
+                        cwd="."
+                    )
+                    st.code(result.stdout, language="text")
+                    if result.returncode == 0:
+                        st.success("점수 재계산이 완료되었습니다!")
+                        if "dm" in st.session_state:
+                            st.session_state["dm"]._invalidate_cache()
+                        st.rerun()
+                    else:
+                        st.error("재계산 중 오류가 발생했습니다.")
+
+        st.markdown("---")
         st.markdown("#### 🗑 데이터 초기화 (주의!)")
         st.error("⚠️ 이 작업은 모든 선수와 경기 기록을 삭제합니다. 복구할 수 없습니다.")
 
         confirm_text = st.text_input("삭제하려면 '초기화'를 입력하세요", placeholder="초기화")
-        if st.button("🚨 전체 데이터 삭제 (Factory Reset)", type="secondary", use_container_width=True):
+        if st.button("🚨 전체 데이터 삭제 (Factory Reset)", type="secondary", width="stretch"):
             if confirm_text == "초기화":
                 dm.create_backup()  # 마지막 백업
                 dm.players = {}
@@ -93,7 +131,7 @@ def render(dm):
     # ========== TAB 3: 백업/복구 ==========
     with tab3:
         st.markdown("#### 💾 수동 백업 생성")
-        if st.button("📦 지금 백업 생성", use_container_width=True):
+        if st.button("📦 지금 백업 생성", width="stretch"):
             dm.create_backup()
             st.success("백업이 생성되었습니다!")
 
@@ -105,7 +143,7 @@ def render(dm):
         if backups:
             selected_backup = st.selectbox("복구할 백업 선택", backups)
             
-            if st.button("⏪ 이 시점으로 복원", use_container_width=True, type="secondary"):
+            if st.button("⏪ 이 시점으로 복원", width="stretch", type="secondary"):
                 if dm.restore_backup(selected_backup):
                     st.success("데이터가 복구되었습니다! 페이지를 새로고침합니다.")
                     # 데이터 매니저 리로드

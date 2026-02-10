@@ -15,13 +15,33 @@ def render(dm):
         st.info("아직 생성된 대진표가 없습니다.")
         return
 
-    # 날짜 선택
+    # 날짜 선택 (모바일 친화적 네비게이션)
     dates = sorted(dm.history.keys(), reverse=True)
-    col1, col2 = st.columns([2, 1])
+    
+    # 현재 선택된 날짜 인덱스
+    if "selected_date_idx" not in st.session_state:
+        st.session_state.selected_date_idx = 0
+    
+    col1, col2, col3, col4 = st.columns([1, 3, 1, 1])
     with col1:
-        selected_date = st.selectbox("📅 대회 날짜 선택", dates)
+        if st.button("◀", width="stretch", disabled=st.session_state.selected_date_idx >= len(dates) - 1):
+            st.session_state.selected_date_idx += 1
+            st.rerun()
     with col2:
-        if st.button("📊 당일 결산 보기", use_container_width=True):
+        selected_date = st.selectbox(
+            "📅 대회 날짜 선택",
+            dates,
+            index=st.session_state.selected_date_idx,
+            label_visibility="collapsed"
+        )
+        # 드롭다운 변경 시 인덱스 업데이트
+        st.session_state.selected_date_idx = dates.index(selected_date)
+    with col3:
+        if st.button("▶", width="stretch", disabled=st.session_state.selected_date_idx <= 0):
+            st.session_state.selected_date_idx -= 1
+            st.rerun()
+    with col4:
+        if st.button("📊 결산", width="stretch"):
             st.session_state["show_summary"] = True
 
     if not selected_date:
@@ -69,13 +89,13 @@ def render(dm):
             status = m.get("status", "pending")
             if status == "done":
                 status_badge = '<span class="status-done">✅ 확정</span>'
-                score_text = f"**{m['score1']}** : **{m['score2']}**"
+                score_text = f"<b>{m['score1']}</b> : <b>{m['score2']}</b>"
             elif status == "pending_approval":
                 input_name = ""
                 if m.get("input_by") and m["input_by"] in dm.players:
                     input_name = dm.players[m["input_by"]].name
                 status_badge = f'<span class="status-pending">🟡 승인대기 ({input_name})</span>'
-                score_text = f"**{m['score1']}** : **{m['score2']}** *(미확정)*"
+                score_text = f"<b>{m['score1']}</b> : <b>{m['score2']}</b> <i style='font-size: 0.8rem;'>(미확정)</i>"
             elif status == "disputed":
                 status_badge = '<span class="status-disputed">🔴 이의제기</span>'
                 score_text = "— : —"
@@ -85,7 +105,7 @@ def render(dm):
 
             # 내 경기 하이라이트
             is_my_match = my_eid and (my_eid in m.get("team1", []) or my_eid in m.get("team2", []))
-            highlight = "border-left: 4px solid #1565C0; background: #E3F2FD;" if is_my_match else "border-left: 4px solid #E0E0E0;"
+            highlight = "border-left: 4px solid #1565C0; background: #E3F2FD; color: #263238;" if is_my_match else "border-left: 4px solid #E0E0E0;"
 
             # 승리팀 강조
             if status == "done":

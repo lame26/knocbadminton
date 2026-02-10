@@ -101,9 +101,9 @@ st.markdown("""
     .status-waiting { background: #90A4AE; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
 
     /* 랭킹 테이블 */
-    .rank-1 { background: linear-gradient(90deg, #FFF9C4, white) !important; }
-    .rank-2 { background: linear-gradient(90deg, #F5F5F5, white) !important; }
-    .rank-3 { background: linear-gradient(90deg, #FFCCBC, white) !important; }
+    .rank-1 { background: linear-gradient(90deg, #FFF9C4, white) !important; color: #263238 !important; }
+    .rank-2 { background: linear-gradient(90deg, #F5F5F5, white) !important; color: #263238 !important; }
+    .rank-3 { background: linear-gradient(90deg, #FFCCBC, white) !important; color: #263238 !important; }
     
     /* 로그인 화면 */
     .login-container {
@@ -128,6 +128,99 @@ st.markdown("""
     .stDataFrame thead th {
         background-color: #1565C0 !important;
         color: white !important;
+    }
+    
+    /* ========================================
+       모바일 최적화 (768px 이하)
+       ======================================== */
+    @media (max-width: 768px) {
+        /* 메인 헤더 */
+        .main-header {
+            padding: 1rem 1rem;
+            margin-bottom: 1rem;
+        }
+        .main-header h1 { font-size: 1.4rem; }
+        .main-header p { font-size: 0.85rem; }
+        
+        /* 메트릭 카드 */
+        .metric-card {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .metric-card h3 { font-size: 1.3rem; }
+        .metric-card p { font-size: 0.75rem; }
+        
+        /* 버튼 - 터치 친화적 크기 */
+        div.stButton > button {
+            min-height: 44px;
+            font-size: 0.95rem;
+            padding: 0.6rem 1rem;
+        }
+        
+        /* 입력 필드 */
+        input, select, textarea {
+            font-size: 16px !important; /* iOS 줌 방지 */
+            min-height: 44px;
+        }
+        
+        /* 로그인 컨테이너 */
+        .login-container {
+            margin: 2rem auto;
+            padding: 1.5rem;
+        }
+        
+        /* 테이블 가로 스크롤 */
+        .stDataFrame {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* 컬럼 간격 축소 */
+        [data-testid="column"] {
+            padding: 0.25rem !important;
+        }
+        
+        /* 탭 */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.5rem;
+        }
+        .stTabs [data-baseweb="tab"] {
+            font-size: 0.85rem;
+            padding: 0.5rem 0.8rem;
+        }
+        
+        /* 경기 카드 간격 */
+        div[style*="border-left"] {
+            margin-bottom: 0.5rem !important;
+        }
+        
+        /* 사이드바 */
+        [data-testid="stSidebar"] {
+            width: 280px !important;
+        }
+        
+        /* 넘버 인풋 */
+        input[type="number"] {
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        /* Expander */
+        .streamlit-expanderHeader {
+            font-size: 0.9rem;
+            padding: 0.6rem;
+        }
+    }
+    
+    /* 작은 모바일 (480px 이하) */
+    @media (max-width: 480px) {
+        .main-header h1 { font-size: 1.2rem; }
+        .metric-card h3 { font-size: 1.1rem; }
+        
+        /* 버튼 텍스트 크기 */
+        div.stButton > button {
+            font-size: 0.85rem;
+        }
     }
 </style>
 """, unsafe_allow_html=True)

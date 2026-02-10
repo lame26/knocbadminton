@@ -9,6 +9,11 @@ BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(BASE_PATH, "data.json")
 BACKUP_DIR = os.path.join(BASE_PATH, "backups")
 
+# 데이터베이스 설정
+DB_FILE = os.path.join(BASE_PATH, "knoc_badminton.db")
+DB_TIMEOUT = 30.0  # 동시성 처리를 위한 타임아웃 (초)
+DB_CHECK_SAME_THREAD = False  # Streamlit 멀티스레드 지원
+
 # 앱 정보
 APP_TITLE = "KNOC 배드민턴 월례대회 관리 시스템"
 APP_VERSION = "3.0 Web"
