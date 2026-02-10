@@ -14,8 +14,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "admin"
+            "total_played": 0
         },
         "4001358": {
             "name": "심국섭",
@@ -31,11 +30,10 @@
             "last_attendance": "2026-03",
             "attendance_count": 5,
             "consecutive_months": 2,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2082669": {
-            "name": "정종실",
+            "name": "정은실",
             "score": 1000,
             "xp": 100,
             "tier": "브론즈",
@@ -48,8 +46,7 @@
             "last_attendance": "2026-03",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2133022": {
             "name": "조정근",
@@ -65,8 +62,7 @@
             "last_attendance": null,
             "attendance_count": 0,
             "consecutive_months": 0,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2042305": {
             "name": "남상훈",
@@ -82,8 +78,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2143125": {
             "name": "김강운",
@@ -99,11 +94,10 @@
             "last_attendance": null,
             "attendance_count": 0,
             "consecutive_months": 0,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2032238": {
-            "name": "백재성",
+            "name": "백은성",
             "score": 1000,
             "xp": 250,
             "tier": "브론즈",
@@ -116,8 +110,7 @@
             "last_attendance": "2026-03",
             "attendance_count": 2,
             "consecutive_months": 2,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2042344": {
             "name": "김광현",
@@ -133,8 +126,7 @@
             "last_attendance": "2026-03",
             "attendance_count": 4,
             "consecutive_months": 2,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2143130": {
             "name": "박현욱",
@@ -150,8 +142,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2223348": {
             "name": "이세환",
@@ -167,8 +158,7 @@
             "last_attendance": null,
             "attendance_count": 0,
             "consecutive_months": 0,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2243426": {
             "name": "김형진",
@@ -184,11 +174,10 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2143059": {
-            "name": "이흥수",
+            "name": "이흔수",
             "score": 1023,
             "xp": 100,
             "tier": "브론즈",
@@ -201,11 +190,10 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2102783": {
-            "name": "서재진",
+            "name": "서은진",
             "score": 1000,
             "xp": 0,
             "tier": "브론즈",
@@ -218,8 +206,7 @@
             "last_attendance": null,
             "attendance_count": 0,
             "consecutive_months": 0,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2233354": {
             "name": "송승현",
@@ -235,8 +222,7 @@
             "last_attendance": null,
             "attendance_count": 0,
             "consecutive_months": 0,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2122932": {
             "name": "이소명",
@@ -252,11 +238,10 @@
             "last_attendance": null,
             "attendance_count": 0,
             "consecutive_months": 0,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2042282": {
-            "name": "도철철",
+            "name": "도희철",
             "score": 1050,
             "xp": 100,
             "tier": "브론즈",
@@ -269,8 +254,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2143084": {
             "name": "염기만",
@@ -286,8 +270,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2122929": {
             "name": "한지훈",
@@ -303,8 +286,7 @@
             "last_attendance": "2026-03",
             "attendance_count": 4,
             "consecutive_months": 2,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2233385": {
             "name": "박현준",
@@ -320,8 +302,7 @@
             "last_attendance": "2026-03",
             "attendance_count": 3,
             "consecutive_months": 3,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2243436": {
             "name": "이예림",
@@ -337,8 +318,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2243427": {
             "name": "임유선",
@@ -354,8 +334,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2243401": {
             "name": "권태형",
@@ -371,8 +350,7 @@
             "last_attendance": null,
             "attendance_count": 0,
             "consecutive_months": 0,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2243421": {
             "name": "이원철",
@@ -388,8 +366,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "2102797": {
             "name": "이재홍",
@@ -405,8 +382,7 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         },
         "e508211": {
             "name": "송명재",
@@ -422,12 +398,10 @@
             "last_attendance": "2026-01",
             "attendance_count": 1,
             "consecutive_months": 1,
-            "total_played": 0,
-            "role": "player"
+            "total_played": 0
         }
     },
     "history": {
-        "2026-02-10": [],
         "2026-01": [
             {
                 "team1": [
@@ -687,12 +661,6 @@
             "골드": 1350,
             "실버": 1200,
             "브론즈": 0
-        }
-    },
-    "settings": {
-        "super_admin": {
-            "username": "admin",
-            "password_hash": "ac9689e2272427085e35b9d3e3e8bed88cb3434828b43b86fc0596cad4c6e270"
         }
     }
 }
