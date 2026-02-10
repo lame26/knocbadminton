@@ -1,0 +1,698 @@
+{
+    "players": {
+        "2143192": {
+            "name": "배일성",
+            "score": 1070,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 3,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "admin"
+        },
+        "4001358": {
+            "name": "심국섭",
+            "score": 1005,
+            "xp": 850,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-03",
+            "attendance_count": 5,
+            "consecutive_months": 2,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2082669": {
+            "name": "정종실",
+            "score": 1000,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-03",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2133022": {
+            "name": "조정근",
+            "score": 1000,
+            "xp": 0,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": null,
+            "attendance_count": 0,
+            "consecutive_months": 0,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2042305": {
+            "name": "남상훈",
+            "score": 1065,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 1,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2143125": {
+            "name": "김강운",
+            "score": 1000,
+            "xp": 0,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": null,
+            "attendance_count": 0,
+            "consecutive_months": 0,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2032238": {
+            "name": "백재성",
+            "score": 1000,
+            "xp": 250,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-03",
+            "attendance_count": 2,
+            "consecutive_months": 2,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2042344": {
+            "name": "김광현",
+            "score": 1000,
+            "xp": 700,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-03",
+            "attendance_count": 4,
+            "consecutive_months": 2,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2143130": {
+            "name": "박현욱",
+            "score": 1043,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2223348": {
+            "name": "이세환",
+            "score": 1000,
+            "xp": 0,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": null,
+            "attendance_count": 0,
+            "consecutive_months": 0,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2243426": {
+            "name": "김형진",
+            "score": 1063,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 2,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2143059": {
+            "name": "이흥수",
+            "score": 1023,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2102783": {
+            "name": "서재진",
+            "score": 1000,
+            "xp": 0,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": null,
+            "attendance_count": 0,
+            "consecutive_months": 0,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2233354": {
+            "name": "송승현",
+            "score": 1000,
+            "xp": 0,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": null,
+            "attendance_count": 0,
+            "consecutive_months": 0,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2122932": {
+            "name": "이소명",
+            "score": 1000,
+            "xp": 0,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": null,
+            "attendance_count": 0,
+            "consecutive_months": 0,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2042282": {
+            "name": "도철철",
+            "score": 1050,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2143084": {
+            "name": "염기만",
+            "score": 1063,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 3,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2122929": {
+            "name": "한지훈",
+            "score": 1023,
+            "xp": 650,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-03",
+            "attendance_count": 4,
+            "consecutive_months": 2,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2233385": {
+            "name": "박현준",
+            "score": 1000,
+            "xp": 600,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-03",
+            "attendance_count": 3,
+            "consecutive_months": 3,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2243436": {
+            "name": "이예림",
+            "score": 1065,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 2,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2243427": {
+            "name": "임유선",
+            "score": 1040,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2243401": {
+            "name": "권태형",
+            "score": 1000,
+            "xp": 0,
+            "tier": "브론즈",
+            "is_active": false,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": null,
+            "attendance_count": 0,
+            "consecutive_months": 0,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2243421": {
+            "name": "이원철",
+            "score": 1040,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 0,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "2102797": {
+            "name": "이재홍",
+            "score": 1045,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-01",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 1,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        },
+        "e508211": {
+            "name": "송명재",
+            "score": 1065,
+            "xp": 100,
+            "tier": "브론즈",
+            "is_active": true,
+            "join_date": "2026-01-30",
+            "match_count": 0,
+            "win_count": 0,
+            "streak": 1,
+            "boost_games": 0,
+            "last_attendance": "2026-01",
+            "attendance_count": 1,
+            "consecutive_months": 1,
+            "total_played": 0,
+            "role": "player"
+        }
+    },
+    "history": {
+        "2026-02-10": [],
+        "2026-01": [
+            {
+                "team1": [
+                    "2143192",
+                    "4001358"
+                ],
+                "score1": 17,
+                "change1": 0,
+                "team2": [
+                    "2042305",
+                    "2042282"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "A",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2143192",
+                    "2042305"
+                ],
+                "score1": 25,
+                "change1": 20,
+                "team2": [
+                    "2042282",
+                    "2102797"
+                ],
+                "score2": 19,
+                "change2": 0,
+                "group": "A",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2143192",
+                    "2042282"
+                ],
+                "score1": 25,
+                "change1": 25,
+                "team2": [
+                    "4001358",
+                    "2102797"
+                ],
+                "score2": 9,
+                "change2": 0,
+                "group": "A",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2143192",
+                    "2102797"
+                ],
+                "score1": 25,
+                "change1": 20,
+                "team2": [
+                    "4001358",
+                    "2042305"
+                ],
+                "score2": 19,
+                "change2": 0,
+                "group": "A",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "4001358",
+                    "2042282"
+                ],
+                "score1": 23,
+                "change1": 0,
+                "team2": [
+                    "2042305",
+                    "2102797"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "A",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2143130",
+                    "2243426"
+                ],
+                "score1": 25,
+                "change1": 20,
+                "team2": [
+                    "2143059",
+                    "2143084"
+                ],
+                "score2": 17,
+                "change2": 0,
+                "group": "B",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2143130",
+                    "2143059"
+                ],
+                "score1": 23,
+                "change1": 0,
+                "team2": [
+                    "2143084",
+                    "2122929"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "B",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2143130",
+                    "2143084"
+                ],
+                "score1": 25,
+                "change1": 20,
+                "team2": [
+                    "2243426",
+                    "2122929"
+                ],
+                "score2": 22,
+                "change2": 0,
+                "group": "B",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2143130",
+                    "2122929"
+                ],
+                "score1": 21,
+                "change1": 0,
+                "team2": [
+                    "2243426",
+                    "2143059"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "B",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2243426",
+                    "2143084"
+                ],
+                "score1": 25,
+                "change1": 20,
+                "team2": [
+                    "2143059",
+                    "2122929"
+                ],
+                "score2": 18,
+                "change2": 0,
+                "group": "B",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2233385",
+                    "2243421"
+                ],
+                "score1": 16,
+                "change1": 0,
+                "team2": [
+                    "2243436",
+                    "2243427"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "C",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2233385",
+                    "2243436"
+                ],
+                "score1": 20,
+                "change1": 0,
+                "team2": [
+                    "2243427",
+                    "e508211"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "C",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2233385",
+                    "2243427"
+                ],
+                "score1": 17,
+                "change1": 0,
+                "team2": [
+                    "e508211",
+                    "2243421"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "C",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2233385",
+                    "e508211"
+                ],
+                "score1": 20,
+                "change1": 0,
+                "team2": [
+                    "2243436",
+                    "2243421"
+                ],
+                "score2": 25,
+                "change2": 20,
+                "group": "C",
+                "status": "done"
+            },
+            {
+                "team1": [
+                    "2243421",
+                    "2243427"
+                ],
+                "score1": 14,
+                "change1": 0,
+                "team2": [
+                    "e508211",
+                    "2243436"
+                ],
+                "score2": 25,
+                "change2": 25,
+                "group": "C",
+                "status": "done"
+            }
+        ]
+    },
+    "rules": {
+        "score": {
+            "win": 20,
+            "loss": 0,
+            "underdog": 15,
+            "big_win": 5,
+            "big_diff": 10,
+            "target_games": 4
+        },
+        "tier": {
+            "챌린저": 1650,
+            "다이아몬드": 1550,
+            "플래티넘": 1450,
+            "골드": 1350,
+            "실버": 1200,
+            "브론즈": 0
+        }
+    },
+    "settings": {
+        "super_admin": {
+            "username": "admin",
+            "password_hash": "ac9689e2272427085e35b9d3e3e8bed88cb3434828b43b86fc0596cad4c6e270"
+        }
+    }
+}
