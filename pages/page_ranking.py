@@ -12,13 +12,15 @@ def render(dm):
     """, unsafe_allow_html=True)
 
     # 정렬 모드 토글
-    col1, col2, col3 = st.columns([1, 1, 1])
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
     with col1:
-        st.markdown("")
+        search_query = st.text_input("선수 검색", placeholder="이름 또는 사번")
     with col2:
         sort_mode = st.selectbox("정렬 기준", ["실력(Pt)", "활동(XP)"], label_visibility="collapsed")
     with col3:
         show_inactive = st.checkbox("휴회 선수 포함", value=False)
+    with col4:
+        min_matches = st.number_input("최소 경기 수", min_value=0, value=0, step=1)
 
     # 통계 카드
     active_count = sum(1 for p in dm.players.values() if p.is_active)
@@ -120,14 +122,33 @@ def render(dm):
     else:
         sorted_players = sorted(dm.players.items(), key=lambda x: x[1].score, reverse=True)
 
+    tier_options = sorted({p.tier for p in dm.players.values()})
+    selected_tiers = st.multiselect(
+        "티어 필터",
+        options=tier_options,
+        default=tier_options,
+        help="선택한 티어만 랭킹 표에 표시합니다.",
+    )
+
     # 테이블 생성
     rows = []
+    search_keyword = search_query.strip().lower()
     rank_idx = 1
     for eid, p in sorted_players:
         if not show_inactive and not p.is_active:
             continue
-        
+
+        if selected_tiers and p.tier not in selected_tiers:
+            continue
+
         stat = player_stats.get(eid, {"wins": 0, "losses": 0, "rate": 0})
+        total_games = stat["wins"] + stat["losses"]
+        if total_games < min_matches:
+            continue
+
+        if search_keyword and (search_keyword not in p.name.lower() and search_keyword not in str(eid).lower()):
+            continue
+
         ch = changes.get(eid, {"rank_ch": 0})
         r_val = ch["rank_ch"]
         
@@ -181,6 +202,18 @@ def render(dm):
             use_container_width=True,
             hide_index=True,
             height=min(len(rows) * 40 + 60, 700),
+        )
+
+        csv_df = df.copy()
+        csv_df["실력(Pt)"] = csv_df["실력(Pt)"].str.replace(",", "", regex=False).astype(int)
+        csv_df["활동(XP)"] = csv_df["활동(XP)"].str.replace(",", "", regex=False).astype(int)
+        csv_data = csv_df.to_csv(index=False).encode("utf-8-sig")
+        st.download_button(
+            "📥 랭킹 CSV 다운로드",
+            data=csv_data,
+            file_name="knoc_ranking.csv",
+            mime="text/csv",
+            use_container_width=True,
         )
     else:
         st.info("등록된 선수가 없습니다.")
