@@ -52,6 +52,9 @@ class DataManager:
         
         # 슈퍼관리자 설정 초기화
         self.settings = self._load_settings()
+
+        # DB가 비어있으면 JSON에서 자동 복구(초기 마이그레이션 보조)
+        self._auto_bootstrap_from_json_if_needed()
         
         # 호환성을 위한 캐시 (필요시 사용)
         self._players_cache = None
@@ -79,6 +82,93 @@ class DataManager:
             default_sa = config.DEFAULT_SUPER_ADMIN.copy()
             self.db.set_setting("super_admin", json.dumps(default_sa))
             return {"super_admin": default_sa}
+
+    def _auto_bootstrap_from_json_if_needed(self):
+        """DB가 비어있을 때 JSON 파일에서 1회성 데이터 복구"""
+        try:
+            if self.db.get_all_players():
+                return
+
+            candidate_files = [config.DATA_FILE, f"{config.DATA_FILE}.backup", os.path.join(config.BASE_PATH, "data.json.backup")]
+            source_file = next((f for f in candidate_files if os.path.exists(f)), None)
+            if not source_file:
+                return
+
+            with open(source_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            players_data = data.get("players", {})
+            history_data = data.get("history", {})
+            rules_data = data.get("rules", {})
+
+            # 규칙 로드
+            for key, value in rules_data.get("score", {}).items():
+                self.db.set_score_rule(key, int(value))
+            for tier_name, threshold in rules_data.get("tier", {}).items():
+                self.db.set_tier_rule(tier_name, int(threshold))
+
+            # 선수 로드
+            for emp_id, player_dict in players_data.items():
+                tier_map = {
+                    "Challenger": "챌린저", "Diamond": "다이아몬드", "Platinum": "플래티넘",
+                    "Gold": "골드", "Silver": "실버", "Bronze": "브론즈",
+                }
+                tier = player_dict.get("tier", "브론즈")
+                tier = tier_map.get(tier, tier)
+
+                self.db.add_player(
+                    emp_id=emp_id,
+                    name=player_dict.get("name", ""),
+                    score=player_dict.get("score", 1000),
+                    tier=tier,
+                    is_active=player_dict.get("is_active", True),
+                    join_date=player_dict.get("join_date"),
+                    role=player_dict.get("role", "player"),
+                )
+                self.db.update_player(
+                    emp_id,
+                    xp=player_dict.get("xp", 0),
+                    match_count=player_dict.get("match_count", 0),
+                    win_count=player_dict.get("win_count", 0),
+                    streak=player_dict.get("streak", 0),
+                    boost_games=player_dict.get("boost_games", 0),
+                    last_attendance=player_dict.get("last_attendance"),
+                    attendance_count=player_dict.get("attendance_count", 0),
+                    consecutive_months=player_dict.get("consecutive_months", 0),
+                    total_played=player_dict.get("total_played", 0),
+                )
+
+            # 경기 로드
+            for date, matches in history_data.items():
+                for match in matches:
+                    match_id = self.db.add_match(
+                        date=date,
+                        team1=match.get("team1", []),
+                        team2=match.get("team2", []),
+                        group_name=match.get("group"),
+                    )
+                    if not match_id:
+                        continue
+                    self.db.update_match(
+                        match_id,
+                        score1=match.get("score1", 0),
+                        score2=match.get("score2", 0),
+                        change1=match.get("change1", 0),
+                        change2=match.get("change2", 0),
+                        status=match.get("status", "pending"),
+                        input_by=match.get("input_by"),
+                        input_timestamp=match.get("input_timestamp"),
+                        approved_by=match.get("approved_by"),
+                        approved_timestamp=match.get("approved_timestamp"),
+                        dispute_reason=match.get("dispute_reason"),
+                    )
+
+            # 규칙/설정 재로딩
+            self.score_rules = self.db.get_score_rules() or self.score_rules
+            self.tier_rules = self.db.get_tier_rules() or self.tier_rules
+            print(f"[bootstrap] JSON 데이터를 DB로 복구했습니다: {source_file}")
+        except Exception as e:
+            print(f"[bootstrap] JSON 자동 복구 실패: {e}")
     
     @property
     def players(self):
