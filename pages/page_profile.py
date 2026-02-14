@@ -36,10 +36,20 @@ def render(dm):
     </div>
     """, unsafe_allow_html=True)
 
-    # 핵심 지표
-    wins = p.win_count
-    total = p.match_count
-    losses = total - wins
+    # 핵심 지표 — history에서 직접 계산
+    wins, losses = 0, 0
+    for matches in dm.history.values():
+        for m in matches:
+            if m.get("status") != "done":
+                continue
+            if emp_id in m["team1"] or emp_id in m["team2"]:
+                is_t1 = emp_id in m["team1"]
+                is_win = (is_t1 and m["score1"] > m["score2"]) or (not is_t1 and m["score2"] > m["score1"])
+                if is_win:
+                    wins += 1
+                else:
+                    losses += 1
+    total = wins + losses
     win_rate = int(wins / max(total, 1) * 100)
 
     c1, c2, c3, c4 = st.columns(4)
