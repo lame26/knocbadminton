@@ -76,7 +76,7 @@ def render(dm):
 
             with st.container():
                 st.markdown(f"""
-                <div style="background: #FFF3E0; padding: 1rem; border-radius: 10px; border-left: 4px solid #FF9800; margin-bottom: 0.5rem;">
+                <div style="background: #FFF3E0; color: #263238; padding: 1rem; border-radius: 10px; border-left: 4px solid #FF9800; margin-bottom: 0.5rem;">
                     <strong>{t1_names}</strong> vs <strong>{t2_names}</strong><br>
                     입력된 점수: <strong>{m['score1']} : {m['score2']}</strong> (입력자: {input_name})
                 </div>
@@ -150,7 +150,7 @@ def render(dm):
             t1_names = get_names(m["team1"])
             t2_names = get_names(m["team2"])
             st.markdown(f"""
-            <div style="background: #E8EAF6; padding: 0.8rem 1rem; border-radius: 8px; border-left: 4px solid #3F51B5; margin-bottom: 0.5rem;">
+            <div style="background: #E8EAF6; color: #263238; padding: 0.8rem 1rem; border-radius: 8px; border-left: 4px solid #3F51B5; margin-bottom: 0.5rem;">
                 {t1_names} <strong>{m['score1']} : {m['score2']}</strong> {t2_names}
                 &nbsp;&nbsp;<span class="status-pending">⏳ 승인 대기</span>
             </div>
@@ -173,7 +173,7 @@ def render(dm):
             bg_color = "#E8F5E9" if my_won else "#FFEBEE"
 
             st.markdown(f"""
-            <div style="background: {bg_color}; padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 0.3rem;">
+            <div style="background: {bg_color}; color: #263238; padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 0.3rem;">
                 {result_icon} {t1_names} <strong>{m['score1']} : {m['score2']}</strong> {t2_names}
                 &nbsp;&nbsp;(점수 변동: <strong>{change_txt}</strong>)
             </div>
@@ -187,8 +187,8 @@ def render(dm):
             t2_names = get_names(m["team2"])
             reason = m.get("dispute_reason", "사유 없음")
             st.markdown(f"""
-            <div style="background: #FBE9E7; padding: 0.8rem 1rem; border-radius: 8px; border-left: 4px solid #F44336; margin-bottom: 0.3rem;">
+            <div style="background: #FBE9E7; color: #263238; padding: 0.8rem 1rem; border-radius: 8px; border-left: 4px solid #F44336; margin-bottom: 0.3rem;">
                 ⚠️ {t1_names} vs {t2_names} — 관리자 중재 대기 중<br>
-                <span style="color: #78909C; font-size: 0.85rem;">사유: {reason}</span>
+                <span style="color: #555; font-size: 0.85rem;">사유: {reason}</span>
             </div>
             """, unsafe_allow_html=True)
