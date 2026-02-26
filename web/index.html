@@ -25,28 +25,32 @@
 
       <section class="panel">
         <div class="panel-header">
-          <h2>Top Ranking</h2>
-          <label>
-            Limit
+          <h2>실시간 랭킹</h2>
+          <label class="limit-label" for="limitSelect">
+            표시 개수
             <select id="limitSelect">
               <option>10</option>
               <option selected>20</option>
               <option>30</option>
+              <option>50</option>
             </select>
           </label>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>Score</th>
-              <th>Tier</th>
-              <th>Wins</th>
-            </tr>
-          </thead>
-          <tbody id="rankingBody"></tbody>
-        </table>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>이름</th>
+                <th>점수</th>
+                <th>티어</th>
+                <th>승수</th>
+              </tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+          <p id="emptyState" class="empty-state" hidden>표시할 랭킹 데이터가 없습니다.</p>
+        </div>
       </section>
     </div>
 
