@@ -210,6 +210,14 @@ def get_dashboard_overview(date: Optional[str] = None):
     }
 
 
+
+
+@app.get("/match-dates")
+def get_match_dates(limit: int = Query(default=12, ge=1, le=120)):
+    dm = get_dm()
+    dates = sorted(dm.history.keys(), reverse=True)
+    return {"count": len(dates), "items": dates[:limit]}
+
 @app.get("/matches/{date}")
 def get_matches(date: str, group: Optional[str] = None):
     dm = get_dm()
