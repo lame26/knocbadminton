@@ -95,14 +95,17 @@ function teamNames(playersMap, teamIds) {
 
 async function loadDateOptions() {
   const data = await fetchJson('/match-dates?limit=24');
-  const selector = byId('matchDateSelect');
-  const prev = selector.value;
-  selector.innerHTML = (data.items || []).map((d) => `<option value="${d}">${d}</option>`).join('');
-  if (prev && (data.items || []).includes(prev)) selector.value = prev;
+  const dateSelectIds = ['matchDateSelect', 'summaryDateSelect'];
+
+  dateSelectIds.forEach((selectId) => {
+    const selector = byId(selectId);
+    const prev = selector.value;
+    selector.innerHTML = (data.items || []).map((d) => `<option value="${d}">${d}</option>`).join('');
+    if (prev && (data.items || []).includes(prev)) selector.value = prev;
+  });
 }
 
 async function loadMatches() {
-  await loadDateOptions();
   const date = byId('matchDateSelect').value;
   if (!date) {
     renderRows('matchesBody', 'matchesEmpty', []);
@@ -126,6 +129,23 @@ async function loadMatches() {
         <td class="${statusClass(m.status)}">${statusText(m.status)}</td>
       </tr>`;
     })
+  );
+}
+
+async function loadSummary() {
+  const date = byId('summaryDateSelect').value;
+  if (!date) {
+    renderRows('summaryBody', 'summaryEmpty', []);
+    return;
+  }
+
+  const summary = await fetchJson(`/summary/${date}`);
+  renderRows(
+    'summaryBody',
+    'summaryEmpty',
+    (summary.items || []).map(
+      (item) => `<tr><td>${item.name || item.emp_id || '-'}</td><td>${item.delta_score ?? '-'}</td><td>${item.result || '-'}</td></tr>`
+    )
   );
 }
 
@@ -208,11 +228,47 @@ async function rejectScore() {
   showMessage('matchActionMessage', '이의제기가 등록되었습니다.');
 }
 
+async function generateTournament(event) {
+  event.preventDefault();
+
+  const date = byId('tournamentDate').value.trim();
+  const mode = byId('tournamentMode').value;
+  const attendees = byId('attendeesInput')
+    .value.split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  if (!date || attendees.length < 4) {
+    throw new Error('대회 월과 참가자(최소 4명)를 입력하세요.');
+  }
+
+  await fetchJson('/tournaments/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date, mode, attendees }),
+  });
+
+  showMessage('tournamentMessage', '대진 생성이 완료되었습니다.');
+  byId('matchDateSelect').value = date;
+}
+
+async function loadPlayerStats(event) {
+  event.preventDefault();
+  const empId = byId('statsEmpId').value.trim();
+  if (!empId) throw new Error('선수 사번을 입력하세요.');
+
+  const stats = await fetchJson(`/players/${empId}/stats`);
+  byId('statsScore').textContent = stats.current_score ?? '-';
+  byId('statsMatchCount').textContent = stats.match_count ?? '-';
+  byId('statsWinCount').textContent = stats.win_count ?? '-';
+  byId('statsWinRate').textContent = stats.win_rate ? `${stats.win_rate}%` : '0%';
+  showMessage('playerStatsMessage', `${stats.name || empId} 선수 통계를 불러왔습니다.`);
+}
+
 async function safeRun(task, messageId = null) {
   try {
     await task();
     byId('lastUpdated').textContent = `마지막 갱신: ${nowText()}`;
-    await Promise.all([loadDashboard(), loadMatches()]);
   } catch (err) {
     console.error(err);
     if (messageId) showMessage(messageId, err.message || '요청 처리 중 오류가 발생했습니다.', false);
@@ -220,21 +276,42 @@ async function safeRun(task, messageId = null) {
   }
 }
 
+async function refreshAll() {
+  await loadDateOptions();
+  await Promise.all([loadDashboard(), loadPlayers(), loadMatches(), loadSummary()]);
+}
+
 function bindEvents() {
-  byId('refreshBtn').addEventListener('click', () => safeRun(async () => { await Promise.all([loadDashboard(), loadPlayers(), loadMatches()]); }));
+  byId('refreshBtn').addEventListener('click', () => safeRun(refreshAll));
   byId('limitSelect').addEventListener('change', () => safeRun(loadDashboard));
   byId('activeOnly').addEventListener('change', () => safeRun(loadPlayers));
   byId('matchDateSelect').addEventListener('change', () => safeRun(loadMatches));
+  byId('summaryDateSelect').addEventListener('change', () => safeRun(loadSummary));
 
   byId('playerForm').addEventListener('submit', (e) => safeRun(() => addPlayer(e), 'playerFormMessage'));
-  byId('submitScoreBtn').addEventListener('click', () => safeRun(submitScore, 'matchActionMessage'));
-  byId('approveBtn').addEventListener('click', () => safeRun(approveScore, 'matchActionMessage'));
-  byId('rejectBtn').addEventListener('click', () => safeRun(rejectScore, 'matchActionMessage'));
+  byId('submitScoreBtn').addEventListener('click', () => safeRun(async () => {
+    await submitScore();
+    await Promise.all([loadDashboard(), loadMatches(), loadSummary()]);
+  }, 'matchActionMessage'));
+  byId('approveBtn').addEventListener('click', () => safeRun(async () => {
+    await approveScore();
+    await Promise.all([loadDashboard(), loadMatches(), loadSummary()]);
+  }, 'matchActionMessage'));
+  byId('rejectBtn').addEventListener('click', () => safeRun(async () => {
+    await rejectScore();
+    await Promise.all([loadDashboard(), loadMatches(), loadSummary()]);
+  }, 'matchActionMessage'));
   byId('reloadMatchesBtn').addEventListener('click', () => safeRun(loadMatches, 'matchActionMessage'));
+
+  byId('tournamentForm').addEventListener('submit', (e) => safeRun(async () => {
+    await generateTournament(e);
+    await refreshAll();
+  }, 'tournamentMessage'));
+
+  byId('playerStatsForm').addEventListener('submit', (e) => safeRun(() => loadPlayerStats(e), 'playerStatsMessage'));
+  byId('loadSummaryBtn').addEventListener('click', () => safeRun(loadSummary, null));
 }
 
 setupTabs();
 bindEvents();
-safeRun(async () => {
-  await Promise.all([loadDashboard(), loadPlayers(), loadMatches()]);
-});
+safeRun(refreshAll);
