@@ -1,16 +1,24 @@
+import os
+from functools import lru_cache
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from data_manager import DataManager
 
 
-app = FastAPI(title="KNOC Badminton API", version="0.1.0")
+class ApiResponse(BaseModel):
+    success: bool
+    message: Optional[str] = None
 
 
-def get_dm() -> DataManager:
-    return DataManager()
+class LoginRequest(BaseModel):
+    username: str
+    password: str
 
 
 class ScoreSubmitRequest(BaseModel):
@@ -46,9 +54,74 @@ class TournamentGenerateRequest(BaseModel):
     mode: str = "밸런스"
 
 
+app = FastAPI(title="KNOC Badminton API", version="0.2.0")
+
+
+origins = [o.strip() for o in os.getenv("FRONTEND_ORIGINS", "*").split(",") if o.strip()]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins or ["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@lru_cache(maxsize=1)
+def get_dm() -> DataManager:
+    return DataManager()
+
+
+
+app.mount("/web", StaticFiles(directory="web"), name="web")
+
+
+@app.get("/")
+def web_index():
+    return FileResponse("web/index.html")
+
+
+def _player_payload(eid, p):
+    return {
+        "emp_id": eid,
+        "name": p.name,
+        "score": p.score,
+        "tier": p.tier,
+        "is_active": p.is_active,
+        "role": p.role,
+        "match_count": p.match_count,
+        "win_count": p.win_count,
+        "xp": p.xp,
+    }
+
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+
+@app.post("/auth/login")
+def login(payload: LoginRequest):
+    dm = get_dm()
+    success, role, emp_id = dm.authenticate(payload.username, payload.password)
+    if not success:
+        raise HTTPException(status_code=401, detail="invalid credentials")
+
+    return {
+        "success": True,
+        "user": {
+            "username": payload.username,
+            "role": role,
+            "emp_id": emp_id,
+        },
+    }
+
+
+@app.post("/admin/reload")
+def reload_data():
+    get_dm.cache_clear()
+    get_dm()
+    return ApiResponse(success=True, message="reloaded")
 
 
 @app.get("/players")
@@ -58,16 +131,7 @@ def get_players(active_only: bool = Query(default=False)):
     for eid, p in dm.players.items():
         if active_only and not p.is_active:
             continue
-        players.append(
-            {
-                "emp_id": eid,
-                "name": p.name,
-                "score": p.score,
-                "tier": p.tier,
-                "is_active": p.is_active,
-                "role": p.role,
-            }
-        )
+        players.append(_player_payload(eid, p))
     players.sort(key=lambda x: x["score"], reverse=True)
     return {"count": len(players), "items": players}
 
@@ -83,7 +147,7 @@ def create_player(payload: PlayerCreateRequest):
     )
     if not ok:
         raise HTTPException(status_code=400, detail=msg)
-    return {"success": True, "message": msg}
+    return ApiResponse(success=True, message=msg)
 
 
 @app.patch("/players/{emp_id}")
@@ -97,7 +161,7 @@ def update_player(emp_id: str, payload: PlayerUpdateRequest):
     )
     if not ok:
         raise HTTPException(status_code=400, detail="update failed")
-    return {"success": True}
+    return ApiResponse(success=True, message="updated")
 
 
 @app.delete("/players/{emp_id}")
@@ -106,7 +170,7 @@ def delete_player(emp_id: str):
     ok = dm.delete_player(emp_id)
     if not ok:
         raise HTTPException(status_code=400, detail="delete failed")
-    return {"success": True}
+    return ApiResponse(success=True, message="deleted")
 
 
 @app.get("/ranking")
@@ -118,12 +182,7 @@ def get_ranking(limit: int = Query(default=20, ge=1, le=200)):
         "items": [
             {
                 "rank": i + 1,
-                "emp_id": eid,
-                "name": p.name,
-                "score": p.score,
-                "tier": p.tier,
-                "match_count": p.match_count,
-                "win_count": p.win_count,
+                **_player_payload(eid, p),
             }
             for i, (eid, p) in enumerate(ranking)
         ],
@@ -174,7 +233,7 @@ def submit_score(date: str, match_idx: int, payload: ScoreSubmitRequest):
     )
     if not ok:
         raise HTTPException(status_code=400, detail="score submit failed")
-    return {"success": True}
+    return ApiResponse(success=True, message="submitted")
 
 
 @app.post("/matches/{date}/{match_idx}/approve")
@@ -183,7 +242,7 @@ def approve_score(date: str, match_idx: int, payload: MatchApproveRequest):
     ok = dm.approve_match(date=date, match_idx=match_idx, approved_by=payload.approved_by)
     if not ok:
         raise HTTPException(status_code=400, detail="approve failed")
-    return {"success": True}
+    return ApiResponse(success=True, message="approved")
 
 
 @app.post("/matches/{date}/{match_idx}/reject")
@@ -192,7 +251,7 @@ def reject_score(date: str, match_idx: int, payload: MatchRejectRequest):
     ok = dm.reject_match(date=date, match_idx=match_idx, reason=payload.reason)
     if not ok:
         raise HTTPException(status_code=400, detail="reject failed")
-    return {"success": True}
+    return ApiResponse(success=True, message="rejected")
 
 
 @app.post("/tournaments/generate")
@@ -205,4 +264,4 @@ def generate_tournament(payload: TournamentGenerateRequest):
     )
     if not ok:
         raise HTTPException(status_code=400, detail=msg)
-    return {"success": True, "message": msg}
+    return ApiResponse(success=True, message=msg)
