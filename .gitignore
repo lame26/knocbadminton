@@ -56,6 +56,19 @@ desktop.ini
 # Environment variables
 .env
 .env.local
+.env.*.local
+
+# Cloudflare Workers 로컬 개발 환경변수 (절대 커밋 금지)
+workers/.dev.vars
+
+# Node.js
+node_modules/
+workers/node_modules/
+frontend/node_modules/
+
+# 빌드 산출물
+frontend/dist/
+workers/dist/
 
 # Data files (선택적 - 실제 데이터는 제외)
 data.json
