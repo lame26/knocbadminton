@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KNOC 배드민턴 운영 웹앱</title>
+    <link rel="stylesheet" href="/web/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div>
+          <h1>KNOC 배드민턴</h1>
+          <p class="subtitle">월례대회 운영 웹앱</p>
+        </div>
+        <div class="topbar-actions">
+          <p id="lastUpdated" class="last-updated">마지막 갱신: -</p>
+          <button id="refreshBtn" class="btn" type="button">전체 새로고침</button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="페이지 탭">
+        <button class="tab-btn active" data-tab="dashboard">대시보드</button>
+        <button class="tab-btn" data-tab="players">선수 관리</button>
+        <button class="tab-btn" data-tab="matches">경기 운영</button>
+      </nav>
+
+      <section id="tab-dashboard" class="tab-panel active">
+        <section class="kpi-grid" id="kpiGrid">
+          <article class="card"><h2>전체 선수</h2><p id="playersTotal">-</p></article>
+          <article class="card"><h2>전체 경기</h2><p id="matchesTotal">-</p></article>
+          <article class="card"><h2>확정 경기</h2><p id="matchesDone">-</p></article>
+          <article class="card"><h2>승인 대기</h2><p id="matchesPending">-</p></article>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>실시간 랭킹</h2>
+            <label class="inline-field" for="limitSelect">
+              표시 개수
+              <select id="limitSelect">
+                <option>10</option><option selected>20</option><option>30</option><option>50</option>
+              </select>
+            </label>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>순위</th><th>이름</th><th>점수</th><th>티어</th><th>승수</th></tr></thead>
+              <tbody id="rankingBody"></tbody>
+            </table>
+            <p id="rankingEmpty" class="empty-state" hidden>표시할 랭킹 데이터가 없습니다.</p>
+          </div>
+        </section>
+      </section>
+
+      <section id="tab-players" class="tab-panel">
+        <section class="panel form-panel">
+          <div class="panel-header"><h2>선수 등록</h2></div>
+          <form id="playerForm" class="form-grid">
+            <label>사번<input id="playerEmpId" required /></label>
+            <label>이름<input id="playerName" required /></label>
+            <label>초기 점수<input id="playerScore" type="number" min="0" value="1000" /></label>
+            <label class="checkbox-row"><input id="playerActive" type="checkbox" checked />활성 선수</label>
+            <button class="btn btn-primary" type="submit">선수 등록</button>
+          </form>
+          <p id="playerFormMessage" class="message"></p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>선수 목록</h2>
+            <label class="inline-field" for="activeOnly">활성만 보기 <input id="activeOnly" type="checkbox" /></label>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>사번</th><th>이름</th><th>점수</th><th>티어</th><th>역할</th><th>상태</th></tr></thead>
+              <tbody id="playersBody"></tbody>
+            </table>
+            <p id="playersEmpty" class="empty-state" hidden>표시할 선수 데이터가 없습니다.</p>
+          </div>
+        </section>
+      </section>
+
+      <section id="tab-matches" class="tab-panel">
+        <section class="panel form-panel">
+          <div class="panel-header"><h2>경기 결과 처리</h2></div>
+          <form id="matchActionForm" class="form-grid">
+            <label>대회 월<select id="matchDateSelect"></select></label>
+            <label>경기 인덱스<input id="matchIndex" type="number" min="0" value="0" /></label>
+            <label>입력자 사번<input id="inputBy" placeholder="예: 1234567" /></label>
+            <label>팀1 점수<input id="score1" type="number" min="0" value="0" /></label>
+            <label>팀2 점수<input id="score2" type="number" min="0" value="0" /></label>
+            <label>승인자 사번<input id="approvedBy" placeholder="예: 1234567" /></label>
+            <label class="full">이의 사유<input id="rejectReason" placeholder="이의 사유를 입력하세요" /></label>
+            <div class="form-actions full">
+              <button class="btn" type="button" id="submitScoreBtn">점수 제출</button>
+              <button class="btn" type="button" id="approveBtn">점수 승인</button>
+              <button class="btn" type="button" id="rejectBtn">이의제기</button>
+            </div>
+          </form>
+          <p id="matchActionMessage" class="message"></p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>날짜별 경기 조회</h2>
+            <button class="btn" type="button" id="reloadMatchesBtn">경기 다시 불러오기</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>인덱스</th><th>조</th><th>팀1</th><th>팀2</th><th>점수</th><th>상태</th></tr></thead>
+              <tbody id="matchesBody"></tbody>
+            </table>
+            <p id="matchesEmpty" class="empty-state" hidden>표시할 경기 데이터가 없습니다.</p>
+          </div>
+        </section>
+      </section>
+    </div>
+    <script src="/web/app.js"></script>
+  </body>
+</html>
