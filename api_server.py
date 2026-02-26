@@ -189,27 +189,6 @@ def get_ranking(limit: int = Query(default=20, ge=1, le=200)):
     }
 
 
-@app.get("/dashboard/overview")
-def get_dashboard_overview(date: Optional[str] = None):
-    dm = get_dm()
-    history = dm.history
-    target_date = date or (sorted(history.keys(), reverse=True)[0] if history else None)
-    matches = history.get(target_date, []) if target_date else []
-
-    pending_approval = sum(1 for m in matches if m.get("status") == "pending_approval")
-    disputed = sum(1 for m in matches if m.get("status") == "disputed")
-    done = sum(1 for m in matches if m.get("status") == "done")
-
-    return {
-        "date": target_date,
-        "players_total": len(dm.players),
-        "matches_total": len(matches),
-        "matches_done": done,
-        "matches_pending_approval": pending_approval,
-        "matches_disputed": disputed,
-    }
-
-
 @app.get("/matches/{date}")
 def get_matches(date: str, group: Optional[str] = None):
     dm = get_dm()
