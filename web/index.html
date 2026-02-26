@@ -23,6 +23,8 @@
         <button class="tab-btn active" data-tab="dashboard">대시보드</button>
         <button class="tab-btn" data-tab="players">선수 관리</button>
         <button class="tab-btn" data-tab="matches">경기 운영</button>
+        <button class="tab-btn" data-tab="tournament">대회 편성</button>
+        <button class="tab-btn" data-tab="insights">통계 조회</button>
       </nav>
 
       <section id="tab-dashboard" class="tab-panel active">
@@ -112,6 +114,61 @@
               <tbody id="matchesBody"></tbody>
             </table>
             <p id="matchesEmpty" class="empty-state" hidden>표시할 경기 데이터가 없습니다.</p>
+          </div>
+        </section>
+      </section>
+
+      <section id="tab-tournament" class="tab-panel">
+        <section class="panel form-panel">
+          <div class="panel-header"><h2>대진 자동 생성</h2></div>
+          <form id="tournamentForm" class="form-grid">
+            <label>대회 월(YYYY-MM)<input id="tournamentDate" placeholder="예: 2026-03" required /></label>
+            <label>편성 모드
+              <select id="tournamentMode">
+                <option value="밸런스" selected>밸런스</option>
+                <option value="랜덤">랜덤</option>
+              </select>
+            </label>
+            <label class="full">참가자 사번(쉼표 구분)
+              <textarea id="attendeesInput" rows="4" placeholder="1234567, 2345678, 3456789"></textarea>
+            </label>
+            <button class="btn btn-primary" type="submit">대진 생성</button>
+          </form>
+          <p id="tournamentMessage" class="message"></p>
+        </section>
+      </section>
+
+      <section id="tab-insights" class="tab-panel">
+        <section class="panel form-panel">
+          <div class="panel-header"><h2>선수 통계 조회</h2></div>
+          <form id="playerStatsForm" class="form-grid">
+            <label>선수 사번<input id="statsEmpId" placeholder="예: 1234567" required /></label>
+            <button class="btn" type="submit">통계 조회</button>
+          </form>
+          <div class="stats-grid" id="statsGrid">
+            <article class="card"><h2>현재 점수</h2><p id="statsScore">-</p></article>
+            <article class="card"><h2>누적 경기 수</h2><p id="statsMatchCount">-</p></article>
+            <article class="card"><h2>승리 수</h2><p id="statsWinCount">-</p></article>
+            <article class="card"><h2>승률</h2><p id="statsWinRate">-</p></article>
+          </div>
+          <p id="playerStatsMessage" class="message"></p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>일자별 요약</h2>
+            <div class="inline-field">
+              대회 월
+              <select id="summaryDateSelect"></select>
+              <button class="btn" type="button" id="loadSummaryBtn">요약 조회</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>선수</th><th>증감 점수</th><th>결과</th></tr></thead>
+              <tbody id="summaryBody"></tbody>
+            </table>
+            <p id="summaryEmpty" class="empty-state" hidden>요약 데이터가 없습니다.</p>
           </div>
         </section>
       </section>
