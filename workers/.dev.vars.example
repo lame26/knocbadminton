@@ -1,0 +1,7 @@
+# 로컬 개발용 환경변수 예시
+# 이 파일을 .dev.vars 로 복사하고 실제 값을 입력하세요
+# .dev.vars 는 절대 git에 커밋하지 마세요!
+
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_SERVICE_KEY=your-service-role-key-here
+FRONTEND_ORIGINS=http://localhost:5173
