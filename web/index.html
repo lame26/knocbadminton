@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KNOC Badminton Web</title>
+    <link rel="stylesheet" href="/web/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div>
+          <h1>KNOC Badminton</h1>
+          <p class="subtitle">Monthly Tournament Operations</p>
+        </div>
+        <button id="refreshBtn" class="btn">Refresh</button>
+      </header>
+
+      <section class="kpi-grid" id="kpiGrid">
+        <article class="card"><h2>Players</h2><p id="playersTotal">-</p></article>
+        <article class="card"><h2>Matches</h2><p id="matchesTotal">-</p></article>
+        <article class="card"><h2>Done</h2><p id="matchesDone">-</p></article>
+        <article class="card"><h2>Pending</h2><p id="matchesPending">-</p></article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Top Ranking</h2>
+          <label>
+            Limit
+            <select id="limitSelect">
+              <option>10</option>
+              <option selected>20</option>
+              <option>30</option>
+            </select>
+          </label>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Score</th>
+              <th>Tier</th>
+              <th>Wins</th>
+            </tr>
+          </thead>
+          <tbody id="rankingBody"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script src="/web/app.js"></script>
+  </body>
+</html>
