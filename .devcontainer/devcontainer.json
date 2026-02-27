@@ -39,11 +39,13 @@
     },
     "8787": {
       "label": "Workers API (wrangler dev)",
-      "onAutoForward": "notify"
+      "onAutoForward": "notify",
+      "visibility": "public"
     },
     "5173": {
       "label": "Vite Frontend",
-      "onAutoForward": "notify"
+      "onAutoForward": "openPreview",
+      "visibility": "public"
     }
   },
   "forwardPorts": [8501, 8787, 5173]
