@@ -24,6 +24,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+
 // 앱 레이아웃 (헤더 + 네비게이션 + 본문)
 function AppLayout() {
   const { user, logout, isAdmin } = useAuth();
@@ -131,7 +132,14 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/*" element={<AppLayout />} />
+          <Route
+            path="/*"
+            element={
+              <RequireAuth>
+                <AppLayout />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
