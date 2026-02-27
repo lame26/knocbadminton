@@ -5,3 +5,7 @@
 SUPABASE_URL=https://your-project-id.supabase.co
 SUPABASE_SERVICE_KEY=your-service-role-key-here
 FRONTEND_ORIGINS=http://localhost:5173
+
+# JWT 서명에 사용할 비밀키 (최소 32자 이상의 랜덤 문자열)
+# 예: openssl rand -base64 32
+JWT_SECRET=your-super-secret-jwt-key-here
