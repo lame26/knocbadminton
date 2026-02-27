@@ -3,11 +3,21 @@
 // 프로덕션에서는 VITE_API_URL 환경변수로 Workers 도메인 지정
 
 const BASE = import.meta.env.VITE_API_URL ?? "/api";
+const TOKEN_KEY = "knoc_token";
+
+function getToken(): string | null {
+  return localStorage.getItem(TOKEN_KEY);
+}
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = getToken();
   const res = await fetch(`${BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
     ...init,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(init?.headers ?? {}),
+    },
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: res.statusText }));
@@ -58,6 +68,19 @@ export interface DaySummary {
 export const api = {
   health: () => request<{ status: string }>("/health"),
 
+  auth: {
+    me: () => request<Player>("/me"),
+    changePin: (current_pin: string, new_pin: string) =>
+      request<{ success: boolean; message: string }>("/change-pin", {
+        method: "POST",
+        body: JSON.stringify({ current_pin, new_pin }),
+      }),
+    resetPin: (emp_id: string) =>
+      request<{ success: boolean; message: string }>(`/admin/reset-pin/${emp_id}`, {
+        method: "POST",
+      }),
+  },
+
   players: {
     list: (activeOnly = true) =>
       request<Player[]>(`/players?active_only=${activeOnly}`),
@@ -75,18 +98,15 @@ export const api = {
 
   matches: {
     byDate: (date: string) => request<Match[]>(`/matches/${date}`),
-    submitScore: (date: string, matchId: number, body: { score1: number; score2: number; input_by: string }) =>
-      request<Match>(`/matches/${date}/${matchId}/submit-score`, {
+    submitScore: (matchId: number, body: { score1: number; score2: number }) =>
+      request<Match>(`/matches/_/${matchId}/submit-score`, {
         method: "POST",
         body: JSON.stringify(body),
       }),
-    approve: (date: string, matchId: number, approvedBy: string) =>
-      request<Match>(`/matches/${date}/${matchId}/approve`, {
-        method: "POST",
-        body: JSON.stringify({ approved_by: approvedBy }),
-      }),
-    reject: (date: string, matchId: number, reason: string) =>
-      request<Match>(`/matches/${date}/${matchId}/reject`, {
+    approve: (matchId: number) =>
+      request<Match>(`/matches/_/${matchId}/approve`, { method: "POST" }),
+    reject: (matchId: number, reason: string) =>
+      request<Match>(`/matches/_/${matchId}/reject`, {
         method: "POST",
         body: JSON.stringify({ reason }),
       }),
