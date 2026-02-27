@@ -3,7 +3,40 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --brand-900: #0b1e3b;
+    --brand-700: #143f7a;
+    --brand-500: #1f7ae0;
+    --mint-400: #31c3b2;
+    --surface: #f4f7fb;
+    --panel: #ffffff;
+  }
+
   body {
-    @apply bg-slate-50 text-slate-900 font-sans;
+    @apply text-slate-900 font-sans antialiased;
+    background:
+      radial-gradient(1100px 500px at 10% -10%, rgba(31, 122, 224, 0.14), transparent 60%),
+      radial-gradient(900px 400px at 90% -10%, rgba(49, 195, 178, 0.12), transparent 60%),
+      linear-gradient(180deg, #f8fbff 0%, var(--surface) 100%);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: #bfdbfe;
+    color: #172554;
+  }
+}
+
+@layer components {
+  .app-shell {
+    @apply min-h-screen;
+  }
+
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur border border-white/70 shadow-[0_16px_48px_rgba(15,23,42,0.08)];
+  }
+
+  .section-card {
+    @apply rounded-2xl bg-white border border-slate-200/80 shadow-[0_12px_30px_rgba(15,23,42,0.06)];
   }
 }

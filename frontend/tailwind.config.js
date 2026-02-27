@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Pretendard", "Inter", "system-ui", "sans-serif"],
+        sans: ["Pretendard", "SUIT Variable", "Noto Sans KR", "system-ui", "sans-serif"],
       },
       colors: {
         primary: {

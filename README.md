@@ -1,124 +1,105 @@
-# KNOC 배드민턴 월례대회 관리 시스템
+﻿# KNOC Badminton Club - Operations System
 
-모바일 친화적인 배드민턴 토너먼트 관리 웹 애플리케이션
+이 저장소는 KNOC 배드민턴 클럽 월간 리그 운영 시스템의 기준 버전입니다.
+
+## 핵심 개요
+- 운영 단위: 월(`YYYY-MM`)
+- 스택: React + Vite + TypeScript, Cloudflare Workers(Hono), Supabase(Postgres)
+- 운영 목표: 경기 생성/운영/기록/집계/공지/출력까지 웹에서 일원화
 
 ## 주요 기능
+- 인증/권한
+  - 로그인/로그아웃/JWT
+  - 최초 로그인 시 비밀번호 변경 강제
+  - 회원가입 요청 + 관리자 승인/거부
+- 선수/회원 관리
+  - 사용자 정보 수정(이름/사번/권한/활성)
+  - 비밀번호 초기화
+  - 비활성화 및 조건부 하드 삭제
+- 경기 운영
+  - 월별 대진 생성
+  - 경기 점수 제출/승인/거부
+  - 경기 수동 생성/수정/삭제
+  - 경기 취소(`cancelled`) 처리
+- 통계/정산
+  - 월별 요약, 선수별 전적/출석/폼
+  - 점수/XP 재계산(드라이런/적용)
+  - 월 마감/해제(마감 월 데이터 변경 제한)
+- 출력/공지
+  - 대진표 A3 가로 출력
+  - 경기결과 요약 출력(현장 공지/밴드 공유용)
+- 감사 로그
+  - 주요 변경 API 호출 이력 조회
 
-- 실시간 랭킹 시스템 (점수/XP 기반)
-- 자동 대진표 생성 (균형/랜덤 매칭)
-- 모바일 최적화 UI
-- 점수 입력 승인 워크플로우
-- 관리자 중재 시스템
-- Supabase(Postgres) 데이터베이스
-- 자동 백업/복구
-
-## 빠른 시작 (Streamlit 버전)
-
-### 1. 저장소 클론
-```bash
-git clone https://github.com/YOUR_USERNAME/knocbadminton.git
-cd knocbadminton
-```
-
-### 2. 패키지 설치
-```bash
-pip install -r requirements.txt
-```
-
-### 3. 환경변수 설정
-
-`.streamlit/secrets.toml` 파일을 생성하고 아래 내용을 입력하세요:
-
-```toml
-SUPABASE_URL = "https://your-project.supabase.co"
-SUPABASE_KEY = "your-anon-key"
-```
-
-또는 환경변수로 설정:
-
-```bash
-export SUPABASE_URL="https://your-project.supabase.co"
-export SUPABASE_KEY="your-anon-key"
-```
-
-> Supabase URL과 anon key는 Supabase 대시보드 → Project Settings → API에서 확인할 수 있습니다.
-
-### 4. 실행
-```bash
-streamlit run app.py
-```
-
-### 5. 접속
-브라우저에서 `http://localhost:8501` 으로 접속
-
-## 🔐 로그인 정보
-
-### 슈퍼관리자
-- **아이디**: `admin`
-- **비밀번호**: `admin1234` (첫 로그인 후 변경 권장)
-
-### 선수 로그인
-- **아이디**: 선수 이름
-- **비밀번호**: 사번
-
-## 📱 모바일 최적화
-
-- 반응형 디자인 (768px, 480px 브레이크포인트)
-- 터치 친화적 버튼 (최소 44px)
-- 모바일 네비게이션 (날짜 이동 버튼)
-- iOS 자동 줌 방지 (16px 입력 필드)
-
-## 📂 프로젝트 구조
-
-```
+## 디렉토리
+```text
 knocbadminton/
-├── app.py              # 메인 앱
-├── config.py           # 설정
-├── data_manager.py     # 비즈니스 로직
-├── database.py         # DB 레이어
-├── requirements.txt    # 의존성
-├── pages/              # 페이지 모듈
-│   ├── page_ranking.py
-│   ├── page_bracket.py
-│   ├── page_profile.py
-│   ├── page_my_matches.py
-│   ├── page_manage.py
-│   ├── page_tourney.py
-│   ├── page_mediate.py
-│   ├── page_roles.py
-│   └── page_settings.py
-└── README.md
+├─ frontend/                  # React 앱
+│  └─ src/
+│     ├─ api/client.ts
+│     ├─ contexts/AuthContext.tsx
+│     └─ pages/
+├─ workers/                   # Cloudflare Workers API
+│  └─ src/index.ts
+├─ scripts/
+│  └─ utf8_guard.ps1          # PowerShell UTF-8 가드
+├─ sql/
+│  └─ audit_logs.sql
+├─ data.json                  # 기준 데이터(백업/복원 소스)
+├─ restore_from_data_json.py  # data.json -> Supabase 복원 유틸
+└─ AI_HANDOFF_HISTORY.md      # 세션 인계 필수 문서
 ```
 
-## 기술 스택 (현재 Streamlit 버전)
-
-- **Frontend**: Streamlit
-- **Backend**: Python 3.8+, FastAPI (전환 중)
-- **Database**: Supabase (Postgres)
-- **Data Processing**: Pandas
-
-## 전환 예정 아키텍처
-
-현재 Streamlit 버전에서 아래 구조로 전환 작업 중입니다:
-
-```
-[Cloudflare Pages]  ← Vite + React SPA
-        ↓
-[Cloudflare Workers]  ← Hono 기반 REST API
-        ↓
-[Supabase (Postgres)]  ← 데이터 저장 + 인증
+## 로컬 실행
+### 1) API(Workers)
+```bash
+cd workers
+npm install
+npm run dev
 ```
 
-자세한 전환 계획은 [REPO_ANALYSIS.md](./REPO_ANALYSIS.md) 섹션 8을 참고하세요.
+### 2) Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## 📝 라이선스
+## 환경변수
+### workers/.dev.vars
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_KEY` (또는 `SUPABASE_KEY`)
+- `JWT_SECRET`
+- `FRONTEND_ORIGINS` (선택)
 
-MIT License
+### frontend/.env.local
+- `VITE_API_URL` (미설정 시 `/api` 폴백)
 
-## 👥 기여
+## data.json 복원
+드라이런:
+```bash
+python restore_from_data_json.py --up-to-month 2026-01
+```
 
-이슈와 PR을 환영합니다!
+실적용:
+```bash
+python restore_from_data_json.py --apply --truncate --up-to-month 2026-01
+```
 
-## 📧 문의
+권장 후속 작업:
+- 시스템 설정 화면에서 점수/XP 재계산 실행
 
-문제가 있으시면 이슈를 등록해주세요.
+## 인코딩 정책(중요)
+한글 깨짐 방지를 위해 PowerShell 세션 시작 시 실행:
+
+```powershell
+.\scripts\utf8_guard.ps1
+```
+
+저장소 보호 설정:
+- `.editorconfig`: UTF-8 + LF 강제
+- `.gitattributes`: 텍스트 파일 UTF-8 working-tree-encoding 지정
+
+## 운영 규칙
+- 코드/설정/동작 변경 시 `AI_HANDOFF_HISTORY.md`를 같은 작업에서 반드시 업데이트
+- 새 AI/새 채팅 세션은 `AI_HANDOFF_HISTORY.md`를 먼저 읽고 작업 시작

@@ -1,27 +1,56 @@
-# KNOC API (FastAPI) 시작점
+﻿# KNOC Workers API Reference
 
-Streamlit UI와 별개로 API 기반 웹앱 전환을 시작하기 위한 백엔드 엔트리입니다.
+기준: Cloudflare Workers + Hono + Supabase
 
-## 실행
-```bash
-pip install -r requirements.txt
-uvicorn api_server:app --reload
-```
+Base URL
+- Local: `http://localhost:8787`
+- Frontend 프록시 사용 시: `/api`
 
-## 주요 엔드포인트
-- `GET /health`
-- `GET /players?active_only=true`
+## Auth
+- `POST /login`
+- `POST /signup`
+- `POST /change-pin` (UI는 비밀번호 변경으로 표기)
+- `POST /admin/reset-pin/:emp_id`
+
+## Signup Admin
+- `GET /admin/signup-requests`
+- `POST /admin/signup-requests/:emp_id/approve`
+- `POST /admin/signup-requests/:emp_id/reject`
+
+## Players
+- `GET /players`
 - `POST /players`
-- `PATCH /players/{emp_id}`
-- `DELETE /players/{emp_id}`
-- `GET /ranking?limit=20`
-- `GET /matches/{date}`
-- `POST /matches/{date}/{match_idx}/submit-score`
-- `POST /matches/{date}/{match_idx}/approve`
-- `POST /matches/{date}/{match_idx}/reject`
-- `GET /players/{emp_id}/stats`
-- `GET /players/{emp_id}/matches`
-- `GET /summary/{date}`
-- `POST /tournaments/generate`
+- `PATCH /players/:emp_id`
+- `DELETE /players/:emp_id`
+- `DELETE /players/:emp_id/hard`
+- `GET /players/:emp_id/stats`
+- `GET /players/:emp_id/matches`
 
-Swagger 문서: `http://127.0.0.1:8000/docs`
+## Matches / Tournament
+- `GET /matches/:date` (`YYYY-MM`)
+- `POST /matches/:date/:match_id/submit-score`
+- `POST /matches/:date/:match_id/approve`
+- `POST /matches/:date/:match_id/reject`
+- `POST /matches`
+- `PATCH /matches/:match_id`
+- `DELETE /matches/:match_id`
+- `POST /tournaments/generate`
+- `GET /summary/:date`
+
+## Settings
+- `GET /settings/rules`
+- `PATCH /settings/rules`
+- `GET /settings/month-close`
+- `GET /settings/month-close/:month`
+- `POST /settings/month-close`
+- `DELETE /settings/month-close/:month`
+
+## Admin Ops
+- `POST /admin/recalculate/score`
+- `POST /admin/recalculate/xp`
+- `POST /admin/recalculate/all`
+- `GET /admin/audit-logs`
+
+## Note
+- 월 마감 상태에서는 일부 변경 API가 차단됩니다.
+- 감사 로그는 주요 변경성 API 호출에 대해 기록됩니다.

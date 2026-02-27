@@ -2,7 +2,9 @@
 // 개발 중에는 vite.config.ts의 proxy 설정으로 /api/* → localhost:8787/* 로 포워딩
 // 프로덕션에서는 VITE_API_URL 환경변수로 Workers 도메인 지정
 
-const BASE = import.meta.env.VITE_API_URL ?? "/api";
+import { API_BASE } from "../config/apiBase";
+
+const BASE = API_BASE;
 const TOKEN_KEY = "knoc_token";
 
 function getToken(): string | null {
@@ -45,12 +47,12 @@ export interface Match {
   date: string;
   group_name: string;
   team1_player1: string;
-  team1_player2: string;
+  team1_player2: string | null;
   team2_player1: string;
-  team2_player2: string;
+  team2_player2: string | null;
   score1: number;
   score2: number;
-  status: "pending" | "done" | "disputed";
+  status: "pending" | "done" | "disputed" | "cancelled";
   input_by: string | null;
   approved_by: string | null;
   dispute_reason: string | null;
@@ -62,6 +64,36 @@ export interface DaySummary {
   done: number;
   pending: number;
   disputed: number;
+  cancelled?: number;
+}
+
+export interface RulesConfig {
+  score_rules: Record<string, number>;
+  tier_rules: Record<string, number>;
+}
+export interface MonthCloseConfig {
+  closed_months: string[];
+}
+export interface MonthCloseState {
+  month: string;
+  closed: boolean;
+}
+
+export interface SignupRequest {
+  emp_id: string;
+  name: string;
+  join_date: string | null;
+  role: string;
+  is_active: boolean;
+}
+export interface AuditLogRow {
+  id: number;
+  created_at: string;
+  actor_emp_id: string;
+  action: string;
+  target_type: string;
+  target_id: string;
+  details?: Record<string, unknown> | null;
 }
 
 // ── API 함수 ──────────────────────────────────────────────────────────────
@@ -70,6 +102,11 @@ export const api = {
 
   auth: {
     me: () => request<Player>("/me"),
+    signup: (body: { emp_id: string; name: string; password: string }) =>
+      request<{ success: boolean; message: string }>("/signup", {
+        method: "POST",
+        body: JSON.stringify(body),
+      }),
     changePin: (current_pin: string, new_pin: string) =>
       request<{ success: boolean; message: string }>("/change-pin", {
         method: "POST",
@@ -90,6 +127,8 @@ export const api = {
       request<Player>(`/players/${empId}`, { method: "PATCH", body: JSON.stringify(body) }),
     delete: (empId: string) =>
       request<{ success: boolean }>(`/players/${empId}`, { method: "DELETE" }),
+    hardDelete: (empId: string) =>
+      request<{ success: boolean }>(`/players/${empId}/hard`, { method: "DELETE" }),
     stats: (empId: string) => request<Player>(`/players/${empId}/stats`),
     matches: (empId: string) => request<Match[]>(`/players/${empId}/matches`),
   },
@@ -110,6 +149,23 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ reason }),
       }),
+    create: (body: {
+      date: string;
+      group_name?: string;
+      team1_player1: string;
+      team1_player2?: string;
+      team2_player1: string;
+      team2_player2?: string;
+      score1?: number;
+      score2?: number;
+      status?: "pending" | "done" | "disputed" | "cancelled";
+      dispute_reason?: string;
+    }) =>
+      request<Match>("/matches", { method: "POST", body: JSON.stringify(body) }),
+    update: (matchId: number, body: Partial<Match>) =>
+      request<Match>(`/matches/${matchId}`, { method: "PATCH", body: JSON.stringify(body) }),
+    delete: (matchId: number) =>
+      request<{ success: boolean }>(`/matches/${matchId}`, { method: "DELETE" }),
   },
 
   summary: (date: string) => request<DaySummary>(`/summary/${date}`),
@@ -129,5 +185,57 @@ export const api = {
         method: "POST",
         body: JSON.stringify(body),
       }),
+  },
+
+  settings: {
+    rules: () => request<RulesConfig>("/settings/rules"),
+    updateRules: (body: Partial<RulesConfig>) =>
+      request<{ success: boolean }>("/settings/rules", {
+        method: "PATCH",
+        body: JSON.stringify(body),
+      }),
+    monthClose: () => request<MonthCloseConfig>("/settings/month-close"),
+    monthClosed: (month: string) => request<MonthCloseState>(`/settings/month-close/${month}`),
+    closeMonth: (month: string) =>
+      request<{ success: boolean; month: string; closed_months: string[] }>("/settings/month-close", {
+        method: "POST",
+        body: JSON.stringify({ month }),
+      }),
+    openMonth: (month: string) =>
+      request<{ success: boolean; month: string; closed_months: string[] }>(`/settings/month-close/${month}`, {
+        method: "DELETE",
+      }),
+    recalcScore: (dry_run = true) =>
+      request<{ dry_run: boolean; players: number; matches: number; top_changes: Array<Record<string, unknown>> }>(
+        "/admin/recalculate/score",
+        { method: "POST", body: JSON.stringify({ dry_run }) }
+      ),
+    recalcXp: (dry_run = true) =>
+      request<{ dry_run: boolean; players: number; top_xp: Array<Record<string, unknown>> }>(
+        "/admin/recalculate/xp",
+        { method: "POST", body: JSON.stringify({ dry_run }) }
+      ),
+    recalcAll: (dry_run = true) =>
+      request<{
+        dry_run: boolean;
+        score: Record<string, unknown>;
+        xp: Record<string, unknown>;
+      }>("/admin/recalculate/all", { method: "POST", body: JSON.stringify({ dry_run }) }),
+  },
+
+  signupRequests: {
+    list: () => request<SignupRequest[]>("/admin/signup-requests"),
+    approve: (empId: string) =>
+      request<{ success: boolean; player: SignupRequest }>(`/admin/signup-requests/${empId}/approve`, {
+        method: "POST",
+      }),
+    reject: (empId: string) =>
+      request<{ success: boolean; player: SignupRequest }>(`/admin/signup-requests/${empId}/reject`, {
+        method: "POST",
+      }),
+  },
+
+  audit: {
+    list: (limit = 100) => request<AuditLogRow[]>(`/admin/audit-logs?limit=${limit}`),
   },
 };

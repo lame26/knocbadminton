@@ -7,7 +7,7 @@ import os
 import sys
 
 SUPABASE_URL = "https://subnwhpceqjwhzmhkefa.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1Ym53aHBjZXFqd2h6bWhrZWZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwMDczNDgsImV4cCI6MjA4NjU4MzM0OH0.YoQj97C5SHxuTQbwTj6ilATBi7aW2TEKtP7RcjuQY1s"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5dnJydWJwaGJrY2xzZHRhZ29lIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjA2MTU1NSwiZXhwIjoyMDg3NjM3NTU1fQ.wp73mnBwkwegaxJvQZFuzSgjpt6wuwZU3FkkBaKKWoQ"
 
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "knoc_badminton.db")
 

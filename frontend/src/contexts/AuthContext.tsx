@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { API_BASE } from "../config/apiBase";
 
 export interface AuthUser {
   emp_id: string;
@@ -41,8 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function login(emp_id: string, pin: string): Promise<{ is_first_login: boolean }> {
-    const BASE = import.meta.env.VITE_API_URL ?? "/api";
-    const res = await fetch(`${BASE}/login`, {
+    const res = await fetch(`${API_BASE}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ emp_id, pin }),
